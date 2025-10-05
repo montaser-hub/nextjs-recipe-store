@@ -1,34 +1,31 @@
-Already done **Next.js recipe store project** implemented with features like:
 
-* dynamic routes (`/recipes/[category]/[recipeId]`),
-* loading/error/not-found components,
-* product listing & details,
-* and reusable UI components (`Breadcrumb`, `Sidebar`, `ProductCard`, etc.).
+# 🍕 Recipe Store  
+**Next.js 15 + TypeScript + TailwindCSS**
 
-The attached **Lab3.png** includes the **remaining requirements** (Authentication, Cart, Product Detail, etc.).
-So here’s your complete **README.md** — documenting what’s already implemented and what’s still **TODO**.
+> A modern recipe e-commerce demo app showcasing dynamic routing, API data fetching, reusable UI components, and upcoming features like authentication and shopping cart integration.
 
 ---
 
-```markdown
-# 🍕 Recipe Store (Next.js 15 + TypeScript + TailwindCSS)
-
-A modern recipe e-commerce demo app built with **Next.js 15**, **TypeScript**, and **TailwindCSS**, featuring dynamic routes, API data fetching, and modular UI components.
+![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.4-06B6D4?logo=tailwindcss)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Status](https://img.shields.io/badge/status-in%20progress-yellow)
 
 ---
 
-## 🚀 Project Overview
+## 📖 Overview
 
 This project demonstrates:
-- Server and client components integration
-- Dynamic routing with layouts
-- API fetching with async server functions
-- UI reusability and state management readiness
-- TypeScript typing for reliability
+- ⚙️ Integration of **server** & **client** components
+- 🧭 **Dynamic routing** with nested layouts
+- 🌐 **API fetching** using async server functions
+- 🧩 **Reusable UI components** for clean structure
+- 🔒 **TypeScript** typing for safer development
 
 ---
 
-## 📁 Folder Structure
+## 🗂️ Folder Structure
 
 ```
 
@@ -62,34 +59,73 @@ src/
 
 ---
 
-## 🧩 Implemented Features
+## ✅ Implemented Features
 
-### ✅ Routing & Pages
+### 🧭 Routing & Pages
 - Dynamic nested routes:
   - `/recipes`
   - `/recipes/[category]`
   - `/recipes/[category]/[recipeId]`
-- Folder-level layouts for category and recipe detail views.
-- Built-in `Loading`, `Error`, and `NotFound` components.
+- Folder-level **layouts** for category and recipe detail views  
+- Built-in **Loading**, **Error**, and **NotFound** components
 
-### ✅ UI Components
-- **Breadcrumb** with dynamic trail (Home → Recipes → Category → Recipe)
-- **NavBar** with sticky positioning and logo
-- **Sidebar** for category filtering (uses `useRouter` and `usePathname`)
-- **ProductCard** with image, rating, and price
-- **ProductsGrid** for list rendering
-- **TextExpander** for long text display
-- **UpdateProfileForm** (basic user profile form)
+### 🎨 UI Components
+- **Breadcrumb** → dynamic trail (Home → Recipes → Category → Recipe)  
+- **NavBar** → sticky top navigation  
+- **Sidebar** → category filtering (`useRouter`, `usePathname`)  
+- **ProductCard** → image, rating, and price display  
+- **ProductsGrid** → responsive list rendering  
+- **TextExpander** → toggle long text  
+- **UpdateProfileForm** → editable user data form  
 
-### ✅ API Integration
-- Recipe fetching from Forkify API  
-  (`https://forkify-api.herokuapp.com/api/v2/recipes`)
-- `recipes(category)` for category-based listing  
-- `recipe(id)` for detailed data
-- Incremental Static Regeneration (ISR) with `revalidate: 60`
+### 🌐 API Integration
+- Data from [Forkify API](https://forkify-api.herokuapp.com/api/v2/recipes)
+- `recipes(category)` → category listing  
+- `recipe(id)` → detail view  
+- Supports **Incremental Static Regeneration (ISR)** (`revalidate: 60`)
 
-### ✅ TypeScript Types
-- `Product` and `Ingredient` interfaces for structured data
+### 🧱 TypeScript Models
+- `Product` and `Ingredient` interfaces for structured typing
+
+---
+
+## 🧠 Implemented So Far
+
+| Feature | Status |
+|----------|---------|
+| Server & Client Components | ✅ |
+| Dynamic Routing | ✅ |
+| API Fetching | ✅ |
+| Loading/Error States | ✅ |
+| Responsive TailwindCSS UI | ✅ |
+| Type Safety | ✅ |
+| Breadcrumb + Sidebar | ✅ |
+
+---
+
+## 🧩 To-Do / Upcoming Features
+
+### 🔐 Authentication (NextAuth.js)
+- [ ] Add Google & Facebook OAuth  
+- [ ] Login / Register / Signout pages  
+- [ ] Restrict access to private routes  
+- [ ] Add session-based middleware
+
+### 🛒 Shopping Cart
+- [ ] Client-side cart display  
+- [ ] Quantity control & item removal  
+- [ ] Server total calculation  
+- [ ] Integrate with **Redux Toolkit** or **React Query**
+
+### 📦 Product Detail
+- [ ] Add "Add to Cart" logic  
+- [ ] Quantity selector  
+- [ ] Fetch product data with **React Query**
+
+### 🧾 Product Listing Enhancements
+- [ ] Sorting & filtering (server-side)
+- [ ] Improved “See more / See less” UX  
+- [ ] Wishlist & order history (server components)
 
 ---
 
@@ -101,47 +137,8 @@ src/
 | Language | TypeScript |
 | Styling | Tailwind CSS |
 | Auth (planned) | NextAuth.js |
-| State Management | Redux Toolkit (planned) |
-| Data Fetching | React Query / TanStack Query (planned) |
-
----
-
-## 🧠 Already Implemented
-
-- ✅ Server Components for rendering recipe data
-- ✅ Client Components for interactivity
-- ✅ API fetching & error handling
-- ✅ Layout-based route organization
-- ✅ Responsive design with TailwindCSS
-- ✅ Breadcrumb, Sidebar, Product Grid and Card components
-
----
-
-## 🧩 To-Do / Upcoming Features
-
-### 🔐 Authentication
-- [ ] Implement NextAuth.js for authentication (`auth.js`)
-- [ ] Support Google & Facebook login
-- [ ] Create Login & Register pages + Signout
-- [ ] Restrict access to private pages (Cart, Checkout)
-- [ ] Add middleware for session checking
-
-### 🛍️ Shopping Cart Page
-- [ ] Client component for cart items display
-- [ ] Quantity adjust & remove item buttons
-- [ ] Server component for totals & shipping
-- [ ] Manage cart state via **React Query** or **Redux Toolkit**
-
-### 📦 Product Detail Page
-- [ ] Add "Add to Cart" button functionality
-- [ ] Add quantity selector component
-- [ ] Manage product details via **React Query**
-
-### 🧾 Product Listing Page
-- [ ] Sorting & filtering in server components
-- [ ] “See more / See less” toggle for long descriptions (partially done)
-- [ ] Server actions for adding products to wishlist
-- [ ] Server components for order history and user profile
+| State | Redux Toolkit / TanStack Query (planned) |
+| Data Source | Forkify API |
 
 ---
 
@@ -149,41 +146,45 @@ src/
 
 ### 1️⃣ Clone & Install
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/<your-username>/nextjs-recipe-store.git
 cd store
 npm install
 ````
 
-### 2️⃣ Run Development Server
+### 2️⃣ Run the App
 
 ```bash
 npm run dev
 ```
 
-Visit:
-👉 [http://localhost:3000](http://localhost:3000)
+Then open 👉 [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## 📜 Scripts
+## 📜 Available Scripts
 
-| Command         | Description             |
-| --------------- | ----------------------- |
-| `npm run dev`   | Run development server  |
-| `npm run build` | Build for production    |
-| `npm run start` | Start production server |
-| `npm run lint`  | Run ESLint              |
+| Command         | Description              |
+| --------------- | ------------------------ |
+| `npm run dev`   | Start development server |
+| `npm run build` | Build for production     |
+| `npm run start` | Run production build     |
+| `npm run lint`  | Lint code for issues     |
 
 ---
 
-## 📄 License
+## 🧾 License
 
-MIT © 2025 — Recipe Store Demo
+MIT © 2025 — **Recipe Store Demo**
 
 ---
 
 ## 👨‍💻 Author
 
-Developed as part of **Next.js Lab 3** (ITI_BNS Program)
+**Developed by Montaser Ismail**
+Part of **Next.js Lab 3 — ITI_BNS Program**
+
+📎 *The attached* **Lab3.png** *includes the remaining requirements (Authentication, Cart, Product Detail, etc.)*
 
 ```
+
+---
