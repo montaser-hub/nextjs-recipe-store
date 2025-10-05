@@ -1,3 +1,4 @@
+<img width="1227" height="509" alt="image" src="https://github.com/user-attachments/assets/80019a5c-268c-4d7e-a31e-8cfa4622065b" />
 
 # 🍕 Recipe Store  
 **Next.js 15 + TypeScript + TailwindCSS**
