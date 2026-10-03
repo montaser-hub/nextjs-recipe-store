@@ -1,5 +1,6 @@
-import { redirect } from "next/navigation";
+import CategoryView from "@/components/categoryView";
+import { DEFAULT_CATEGORY } from "@/lib/catalog";
 
 export default function RecipesRoot() {
-  redirect("/recipes/pizza");
+  return <CategoryView category={DEFAULT_CATEGORY} />;
 }

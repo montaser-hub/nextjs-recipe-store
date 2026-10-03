@@ -1,6 +1,7 @@
 import Link from "next/link";
 import ProductCard from "@/components/productCard";
 import { Product } from "@/types/Product";
+import { label } from "@/lib/catalog";
 
 interface ProductsGridProps {
   products: Product[];
@@ -9,8 +10,8 @@ interface ProductsGridProps {
 //explicitly define a props interface
 const ProductsGrid: React.FC<ProductsGridProps> = ({ products, category }) => {
   return (
-    <section className="bg-gray-50 py-8 antialiased dark:bg-gray-900 md:py-12 ">
-      <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
+    <section className="antialiased">
+      <div>
         {/* Breadcrumb */}
         <nav className="flex" aria-label="Breadcrumb">
           <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
@@ -78,9 +79,7 @@ const ProductsGrid: React.FC<ProductsGridProps> = ({ products, category }) => {
                   />
                 </svg>
                 <span className="ms-1 text-sm font-medium text-emerald-500 md:ms-2">
-                  {category
-                    ? category[0].toUpperCase() + category.slice(1)
-                    : "Pizza"}
+                  {label(category)}
                 </span>
               </div>
             </li>
@@ -88,17 +87,16 @@ const ProductsGrid: React.FC<ProductsGridProps> = ({ products, category }) => {
         </nav>
 
         <h2 className="mt-6 mb-4 text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
-          {category ? category[0].toUpperCase() + category.slice(1) : "pizza"}
+          {label(category)}{" "}
+          <span className="text-base font-normal text-gray-500">({products.length} recipes)</span>
         </h2>
       </div>
 
       {/* Product grid */}
-      <div className="h-[70vh] overflow-y-auto pr-2">
-        <div className="mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+      <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {products.map((product, index) => (
+          <ProductCard key={product.id} product={product} priority={index < 4} />
+        ))}
       </div>
     </section>
   );

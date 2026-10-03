@@ -1,17 +1,18 @@
 {
-  "name": "store",
+  "name": "nextjs-recipe-store",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "snapshot": "node scripts/snapshot-recipes.mjs",
+    "deploy": "bash scripts/deploy.sh"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "next": "15.5.4",
-    "next-auth": "^4.24.11",
     "react": "19.1.0",
     "react-dom": "19.1.0"
   },

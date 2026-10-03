@@ -1,20 +1,24 @@
 export interface Ingredient {
-  quantity?: number;
+  quantity?: number | null;
   unit?: string;
   description: string;
 }
 
+/** A Forkify recipe, presented as a product. */
 export interface Product {
-  id: number;
+  id: string;
   publisher: string;
   title: string;
-  price: number;
-  description: string;
   category: string;
   image_url: string;
+  /** Demo price and rating: derived from the id, so they are the same on every page. */
+  price: number;
+  rating: { rate: number; count: number };
+}
+
+export interface ProductDetail extends Product {
   ingredients: Ingredient[];
-  rating: {
-    rate: number;
-    count: number;
-  };
+  servings: number;
+  cookingTime: number;
+  sourceUrl: string;
 }

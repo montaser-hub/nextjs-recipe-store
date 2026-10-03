@@ -1,57 +1,32 @@
-import { Product, Ingredient } from "@/types/Product";
-import {recipe as fetchRecipe} from "../../../../services/recipies.jsx";
 import Image from "next/image";
 import Breadcrumb from "@/components/breadcrumb";
-import TextExpander from "@/components/textExpander";
-interface Props {
-  params: Promise<{ category: string; recipeId: string }>; // dynamic route params
+import { CATEGORIES, getRecipe, getRecipes } from "@/lib/catalog";
+import type { Ingredient } from "@/types/Product";
+
+type Props = { params: Promise<{ category: string; recipeId: string }> };
+
+// Pre-render every recipe of every category.
+export const dynamicParams = false;
+export async function generateStaticParams() {
+  const perCategory = await Promise.all(
+    CATEGORIES.map(async (category) =>
+      (await getRecipes(category)).map((recipe) => ({ category, recipeId: recipe.id }))
+    )
+  );
+  return perCategory.flat();
 }
-
-// Fetch and normalize recipe into your Product type
-const fetchProduct = async (recipeId: string): Promise<Product> => {
-  const recipeData = await fetchRecipe(recipeId);
-
-  // Normalize into Product
-  return {
-    id: recipeData.id,
-    title: recipeData.title,
-    publisher: recipeData.publisher,
-    image_url: recipeData.image_url,
-    category: recipeData.category || "Pizza",
-    description: `Delicious ${recipeData.title} made by ${recipeData.publisher}.`,
-    ingredients: recipeData.ingredients || [],
-    price: parseFloat((Math.random() * 50 + 10).toFixed(2)), // fake price
-    rating: {
-      rate: parseFloat((Math.random() * 5).toFixed(1)), // fake rating
-      count: Math.floor(Math.random() * 500) + 1, // fake reviews
-    },
-  };
-};
 
 export async function generateMetadata({ params }: Props) {
-  const { recipeId } = await params;
-  const recipe: Product = await fetchProduct(recipeId);
-
-  return {
-    title: `Recipe: ${recipe.title}`,
-  };
+  const { category, recipeId } = await params;
+  const { title } = await getRecipe(recipeId, category);
+  return { title: `${title} · Recipe Store` };
 }
 
-// Page Component
 export default async function RecipeDetailPage({ params }: Props) {
-  const { recipeId } = await params; 
-  const {
-    title,
-    price,
-    image_url,
-    rating,
-    category,
-    description,
-    ingredients,
-    publisher,
-  } = await fetchProduct(recipeId);
-
-  const roundedRating = Math.round(rating?.rate || 0);
+  const { category, recipeId } = await params;
+  const { title, price, image_url, rating, publisher, ingredients, servings, cookingTime, sourceUrl } =
+    await getRecipe(recipeId, category);
+  const roundedRating = Math.round(rating.rate);
 
   return (
     <section className="max-w-screen-lg mx-auto px-4 py-10 space-y-10">
@@ -64,6 +39,7 @@ export default async function RecipeDetailPage({ params }: Props) {
             alt={title}
             fill
             priority
+            sizes="(max-width: 1024px) 100vw, 50vw"
             className="object-cover hover:scale-105 transition-transform duration-300"
           />
         </div>
@@ -77,48 +53,50 @@ export default async function RecipeDetailPage({ params }: Props) {
             {Array.from({ length: 5 }, (_, i) => (
               <svg
                 key={i}
-                className={`h-5 w-5 ${
-                  i < roundedRating ? "text-yellow-400" : "text-gray-300"
-                }`}
+                className={`h-5 w-5 ${i < roundedRating ? "text-yellow-400" : "text-gray-300"}`}
                 fill="currentColor"
                 viewBox="0 0 24 24"
+                aria-hidden="true"
               >
                 <path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.787 1.402 8.172L12 18.897l-7.336 3.854 1.402-8.172-5.934-5.787 8.2-1.192z" />
               </svg>
             ))}
-            <p className="text-sm font-medium text-gray-900">
-              {rating.rate.toFixed(1)}
-            </p>
-            <span className="text-sm text-gray-600 ml-2">
-              ({rating.count} reviews)
-            </span>
+            <p className="text-sm font-medium text-gray-900">{rating.rate.toFixed(1)}</p>
+            <span className="text-sm text-gray-600 ml-2">({rating.count} reviews)</span>
           </div>
 
-          <p className="text-3xl font-bold text-green-600">
-            ${price.toFixed(2)}
-          </p>
-          
-          <p className="text-gray-700 leading-relaxed"><TextExpander>{description}</TextExpander></p>
-          
+          <p className="text-3xl font-bold text-green-600">${price.toFixed(2)}</p>
+
+          <dl className="flex gap-8 text-gray-700">
+            <div>
+              <dt className="text-sm text-gray-500">Servings</dt>
+              <dd className="text-lg font-medium">{servings}</dd>
+            </div>
+            <div>
+              <dt className="text-sm text-gray-500">Cooking time</dt>
+              <dd className="text-lg font-medium">{cookingTime} min</dd>
+            </div>
+          </dl>
+
           <div>
             <h3 className="text-lg font-medium mb-2">Ingredients</h3>
             <ul className="list-disc pl-5 text-gray-700 space-y-1">
               {ingredients.map((ing: Ingredient, index) => (
                 <li key={index}>
-                  {ing.quantity || ""} {ing.unit || ""} {ing.description}
+                  {ing.quantity ?? ""} {ing.unit ?? ""} {ing.description}
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="flex gap-4 mt-6">
-            <button className="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg shadow-md transition-colors">
-              Order Now
-            </button>
-            <button className="border border-green-600 text-green-600 hover:bg-green-50 px-5 py-2 rounded-lg transition-colors">
-              Add to Wishlist
-            </button>
-          </div>
+          <a
+            href={sourceUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="self-start border border-green-600 text-green-600 hover:bg-green-50 px-5 py-2 rounded-lg transition-colors"
+          >
+            Full directions at {publisher}
+          </a>
         </div>
       </div>
     </section>

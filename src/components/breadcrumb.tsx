@@ -11,7 +11,7 @@ export default function Breadcrumb({ category, title }: BreadcrumbProps) {
   const items = [
     { label: "Home", href: "/" },
     { label: "Recipes", href: "/recipes" },
-    { label: category, href: `/recipes/${category}`, capitalize: true },
+    { label: category, href: `/recipes/${category}` },
     { label: title, current: true },
   ];
 
@@ -47,7 +47,7 @@ export default function Breadcrumb({ category, title }: BreadcrumbProps) {
 
   return (
     <nav className="flex mb-6" aria-label="Breadcrumb">
-      <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+      <ol className="flex flex-wrap items-center gap-y-1 space-x-1 md:space-x-2 rtl:space-x-reverse">
         {items.map((item, idx) => (
           <li key={idx} className="flex items-center">
             {idx === 0 ? (
@@ -62,7 +62,7 @@ export default function Breadcrumb({ category, title }: BreadcrumbProps) {
               <>
                 <ArrowIcon />
                 {item.current ? (
-                  <span className="ms-1 text-sm font-medium text-emerald-500 capitalize">
+                  <span className="ms-1 text-sm font-medium text-emerald-500">
                     {item.label}
                   </span>
                 ) : (

@@ -1,70 +1,29 @@
-"use client";
+import Link from "next/link";
+import { CATEGORIES, DEFAULT_CATEGORY } from "@/lib/catalog";
 
-import { usePathname, useRouter } from "next/navigation";
-import { useMemo } from "react";
-
-const CATEGORIES = [
-  "pizza", // default
-  "pasta",
-  "salad",
-  "burger",
-  "chicken",
-  "beef",
-  "fish",
-  "soup",
-  "dessert",
-  "cake",
-  "bread",
-  "rice",
-  "sandwich",
-  "vegan",
-  "vegetarian",
-  "seafood",
-];
-
-export default function Sidebar() {
-  const router = useRouter();
-  const pathname = usePathname();
-
-  // Detect active category from the URL, default to "pizza"
-  const activeCategory = useMemo(() => {
-    const parts = pathname?.split("/") ?? [];
-    return parts.length >= 3 && parts[2] ? parts[2] : "pizza";
-  }, [pathname]);
-
-  function handleSelect(cat: string) {
-    if (cat === "pizza") {
-      // Default route → /recipes
-      router.push("/recipes");
-    } else {
-      router.push(`/recipes/${encodeURIComponent(cat)}`);
-    }
-  }
-
+/** Category filter: a column on desktop, a scrollable row of chips on phones. */
+export default function Sidebar({ active }: { active: string }) {
   return (
-    <aside className="w-56 bg-gray-50 border-r border-gray-200 p-4">
-      <h3 className="text-lg font-semibold mb-4">Filter by category</h3>
-      <ul className="space-y-2">
+    <nav aria-label="Recipe categories" className="md:w-56 md:shrink-0">
+      <h3 className="hidden md:block text-lg font-semibold mb-4">Filter by category</h3>
+      <ul className="flex md:flex-col gap-2 overflow-x-auto pb-2 md:pb-0">
         {CATEGORIES.map((cat) => {
-          const isActive = activeCategory === cat;
-
+          const isActive = active === cat;
           return (
-            <li key={cat}>
-              <button
-                onClick={() => handleSelect(cat)}
-                className={`flex items-center w-full text-left capitalize px-3 py-2 rounded-md transition-colors
-                  ${
-                    isActive
-                      ? "bg-green-500 text-white font-semibold"
-                      : "hover:bg-gray-200 text-gray-800"
-                  }`}
+            <li key={cat} className="shrink-0">
+              <Link
+                href={cat === DEFAULT_CATEGORY ? "/recipes" : `/recipes/${cat}`}
+                aria-current={isActive ? "page" : undefined}
+                className={`block capitalize px-3 py-2 rounded-md transition-colors whitespace-nowrap ${
+                  isActive ? "bg-green-500 text-white font-semibold" : "bg-white md:bg-transparent hover:bg-gray-200 text-gray-800"
+                }`}
               >
                 {cat}
-              </button>
+              </Link>
             </li>
           );
         })}
       </ul>
-    </aside>
+    </nav>
   );
 }

@@ -4,9 +4,11 @@ import { Product } from "../types/Product";
 
 type Props = {
   product: Product;
+  /** Load eagerly: only for the cards visible on first paint. */
+  priority?: boolean;
 };
 
-export default function ProductCard({ product }: Props) {
+export default function ProductCard({ product, priority = false }: Props) {
   const { id, category, title, publisher, price, image_url, rating } = product;
   const roundedRating = Math.round(rating.rate);
 
@@ -18,7 +20,7 @@ export default function ProductCard({ product }: Props) {
             src={image_url}
             alt={title}
             fill
-            priority
+            priority={priority}
             className="object-cover hover:scale-105 transition-transform duration-300 ease-in-out"
             sizes="(max-width: 768px) 100vw, 300px"
           />
@@ -27,8 +29,8 @@ export default function ProductCard({ product }: Props) {
 
       <div className="pt-5 space-y-2">
         <div className="flex items-center justify-between">
-          <span className="rounded bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:bg-green-900 dark:text-green-300">
-            Bestseller
+          <span className="rounded bg-green-100 px-2.5 py-0.5 text-xs font-medium capitalize text-green-800 dark:bg-green-900 dark:text-green-300">
+            {category}
           </span>
         </div>
 
@@ -66,10 +68,7 @@ export default function ProductCard({ product }: Props) {
         </div>
 
         <div className="flex items-center justify-between pt-2">
-          <p className="text-2xl font-bold text-green-600">${price}</p>
-          <button className="rounded-lg bg-green-600 px-5 py-2 text-sm font-medium text-white hover:bg-green-700 focus:ring-2 focus:ring-green-400 dark:bg-green-500 dark:hover:bg-green-600 transition">
-            Add to cart
-          </button>
+          <p className="text-2xl font-bold text-green-600">${price.toFixed(2)}</p>
         </div>
       </div>
     </div>
